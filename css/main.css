@@ -500,10 +500,11 @@ figcaption a:hover {
 
     #index_figure img {
         width: 110%;
+        margin-left: -1.5em;
     }
 
     #bio_pic {
-        width: 50%;
+        width: 56%;
         margin-right: .5em;
     }
 
@@ -526,4 +527,3 @@ figcaption a:hover {
         margin-bottom: -0.1em;
     }
 }
-
