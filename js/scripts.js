@@ -17,5 +17,6 @@ $(document).ready(function(){
 			});   
 		  $(".select-btn").click(function(){
 		    $(".hamburger").toggleClass("is-active");
+		    $("#wrapper").toggleClass("dropdown-active");
 		  });
 		});
