@@ -500,3 +500,15 @@ figcaption a:hover {
         height: 60vh;
     }
 }
+
+@media (max-height: 420px) {
+    .select-menu .options {
+        height: 55vh;
+    }
+}
+
+@media (max-height: 320px) {
+    .select-menu .options {
+        height: 45vh;
+    }
+}
