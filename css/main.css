@@ -177,7 +177,7 @@ figcaption a:hover {
 
 #bio_pic {
     float: left;
-    width: 36%;
+    width: 38.5%;
     height: auto;
     opacity: 0.95;
     margin-right: 1em;
@@ -203,7 +203,7 @@ figcaption a:hover {
     margin-bottom: .2em;
 }
 
-#services_img01 {
+/*#services_img01 {
     float: left;
     width: 40%;
     height: auto;
@@ -237,7 +237,7 @@ figcaption a:hover {
     rotate: -2deg;
     box-shadow: -10px 10px 20px rgba(4, 4, 4, 0.4);
     z-index: 100;
-}
+}*/
 
 .fees_headers {
     color: #5f88a0;
@@ -466,12 +466,12 @@ figcaption a:hover {
 
 }
 
-@media (max-width: 1000px) {
+/*@media (max-width: 1000px) {
 
     #services_img01, #services_img02, #services_img03 {
         display: none;
     }
-}
+}*/
 
 
 @media (max-width: 800px) {
