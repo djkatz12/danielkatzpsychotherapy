@@ -252,7 +252,7 @@ figcaption a:hover {
     border: 2px solid rgba(0, 0, 0, 0.0);
 }
 .media_link:hover {
-    box-shadow: 10px 10px 20px rgba(4, 4, 4, 0.1);
+    box-shadow: 5px 5px 5px rgba(4, 4, 4, 0.1);
 }
 
 .media_link img {
