@@ -188,6 +188,10 @@ figcaption a:hover {
     z-index: 100;
 }
 
+.cred {
+    display: block;
+}
+
 .faq_question {
     color: #5f88a0;
     font-size: 1.2em;
@@ -492,6 +496,9 @@ figcaption a:hover {
         margin-top: -0.07em;
         margin-right: 0.07em;
         margin-bottom: -0.1em;
+    }
+    .cred {
+        margin-bottom: 0.6em;
     }
 }
 
