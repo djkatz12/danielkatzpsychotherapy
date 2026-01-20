@@ -251,12 +251,11 @@ figcaption a:hover {
 .media_link {
     margin-left: 20%;
     width: 50%;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
     padding: .1em;
-    border: 2px solid rgba(0, 0, 0, 0.0);
 }
 .media_link:hover {
-    box-shadow: 5px 5px 5px rgba(4, 4, 4, 0.1);
+    opacity: 0.8;
 }
 
 .media_link img {
@@ -442,7 +441,6 @@ figcaption a:hover {
     #bio_pic {
         width: 40%;
     }
-
 }
 
 @media (max-width: 800px) {
@@ -470,7 +468,7 @@ figcaption a:hover {
     }
 
     #index_figure img {
-        width: 120%;
+        width: 110%;
         margin-left: -1em;
     }
 
