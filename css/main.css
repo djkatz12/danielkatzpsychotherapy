@@ -6,11 +6,7 @@
     --color-nav-hover: rgba(193, 198, 214, 0.45);
     --color-accent: #4f768d;
     --color-accent-original: #5f88a0;
-    --color-rule: rgba(34, 34, 34, 0.16);
     --color-rule-soft: rgba(79, 118, 141, 0.24);
-    --color-periwinkle: #c1c6d6;
-    --color-heading-wash: rgba(193, 198, 214, 0.28);
-    --color-heading-rule: rgba(193, 198, 214, 0.78);
     --color-wash: rgba(193, 198, 214, 0.24);
     --font-serif: "Lora", Georgia, serif;
     --header-z-index: 10;
@@ -472,7 +468,6 @@ blockquote cite::before {
     font-size: 1.2rem;
 }
 
-
 .compact-section p:first-of-type {
     display: inline;
 }
@@ -589,10 +584,6 @@ blockquote cite::before {
 }
 
 @media (max-width: 800px) {
-    .site-header {
-        position: sticky;
-    }
-
     .desktop-masthead,
     .desktop-nav {
         display: none;
@@ -733,6 +724,7 @@ blockquote cite::before {
     .mobile-nav a[aria-current="page"] {
         background: var(--color-nav-hover);
     }
+
     .page-content {
         width: auto;
         margin: 0;
