@@ -1,22 +1,31 @@
-$(document).ready(function(){
-			const optionMenu = document.querySelector(".select-menu"),
-			  selectBtn = optionMenu.querySelector(".select-btn"),
-			  options = optionMenu.querySelectorAll(".option"),
-			  sBtn_text = optionMenu.querySelector(".sBtn-text");
+(() => {
+    const button = document.querySelector('.menu-toggle');
+    const navigation = document.getElementById('mobile-navigation');
 
-			selectBtn.addEventListener("click", () =>
-			  optionMenu.classList.toggle("active")
-			);
+    if (!button || !navigation) {
+        return;
+    }
 
-			options.forEach((option) => {
-			  option.addEventListener("click", () => {
-			    // let selectedOption = option.querySelector(".option-text").innerText;
-			    // sBtn_text.innerText = selectedOption;
-			    optionMenu.classList.remove("active");
-			  });
-			});   
-		  $(".select-btn").click(function(){
-		    $(".hamburger").toggleClass("is-active");
-		    $("#wrapper").toggleClass("dropdown-active");
-		  });
-		});
+    const setMenuState = (open) => {
+        button.setAttribute('aria-expanded', String(open));
+        button.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        navigation.hidden = !open;
+    };
+
+    button.addEventListener('click', () => {
+        const isOpen = button.getAttribute('aria-expanded') === 'true';
+        setMenuState(!isOpen);
+    });
+
+    navigation.addEventListener('click', (event) => {
+        if (event.target.closest('a')) {
+            setMenuState(false);
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            setMenuState(false);
+        }
+    });
+})();
