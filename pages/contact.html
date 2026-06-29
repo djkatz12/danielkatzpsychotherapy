@@ -4,6 +4,18 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style data-critical="initial-nav-state">
+@media (max-width: 800px) {
+    .desktop-masthead,
+    .desktop-nav { display: none; }
+    .mobile-masthead { display: flex; }
+    .mobile-nav[hidden] { display: none; }
+}
+@media (min-width: 801px) {
+    .mobile-masthead,
+    .mobile-nav { display: none; }
+}
+</style>
 <meta content="#c1c6d6" name="theme-color"/>
 <meta content="Contact Daniel Katz Psychotherapy by email, phone, or through Headway." name="description"/>
 <title>Contact | Daniel Katz Psychotherapy</title>

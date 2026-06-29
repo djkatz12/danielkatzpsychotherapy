@@ -17,14 +17,19 @@
         setMenuState(!isOpen);
     });
 
-    navigation.addEventListener('click', (event) => {
-        if (event.target.closest('a')) {
+    // Do not hide the mobile menu when a navigation link is tapped.
+    // On a static multi-page site, closing the overlay before the browser
+    // navigates briefly reveals the old page underneath, which reads as a
+    // mobile page-load stutter. Let the next document replace this one.
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
             setMenuState(false);
         }
     });
 
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
             setMenuState(false);
         }
     });

@@ -68,6 +68,7 @@ a {
     color: inherit;
     text-decoration-thickness: 0.055em;
     text-underline-offset: 0.18em;
+    touch-action: manipulation;
 }
 
 a:focus-visible,
