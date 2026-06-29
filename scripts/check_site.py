@@ -80,21 +80,35 @@ def check_css_js(errors: list[str]) -> None:
         errors.append("css/main.css still uses the hidden-attribute mobile-nav rule.")
     if not re.search(r"@media \(max-width: 800px\).*?\.mobile-nav \{[^}]*position: static;", css, re.S):
         errors.append("css/main.css should keep the no-JS mobile nav in normal document flow.")
-    if not re.search(r"\.js \.mobile-nav \{[^}]*position: absolute;", css, re.S):
-        errors.append("css/main.css should apply overlay positioning only after JS enhancement.")
+    if not re.search(r"\.js \.mobile-nav \{[^}]*position: fixed;", css, re.S):
+        errors.append("css/main.css should pin the enhanced mobile nav to the viewport.")
+    if re.search(r"\.js\.mobile-menu-open \.site-header \{[^}]*position: fixed;", css, re.S):
+        errors.append("css/main.css should not move the header into fixed positioning when the menu opens.")
+    if re.search(r"\.js\.mobile-menu-open(?:\s+body)?\s*\{[^}]*overflow:\s*hidden", css, re.S):
+        errors.append("css/main.css should not rely on html/body overflow hidden for mobile scroll locking.")
 
     js = (ROOT / "js" / "scripts.js").read_text(encoding="utf-8")
     for needle in [
         "classList.toggle('is-open'",
         "aria-hidden",
         "setMenuState(false)",
-        "lockPageScroll",
-        "unlockPageScroll",
         "mobile-menu-open",
-        "window.scrollTo(0, scrollLockY)",
+        "touchmove",
+        "preventBackgroundTouchScroll",
+        "preventBackgroundWheelScroll",
+        "setMenuGeometry",
+        "--mobile-nav-top",
     ]:
         if needle not in js:
             errors.append(f"js/scripts.js is missing expected mobile-nav behavior: {needle}")
+    for forbidden in [
+        "let scrollLockY = 0",
+        "document.body.style.position = 'fixed'",
+        "document.body.style.top = `-${scrollLockY}px`",
+        "window.scrollTo(0, scrollLockY)",
+    ]:
+        if forbidden in js:
+            errors.append(f"js/scripts.js should not use jump-prone fixed-body scroll locking: {forbidden}")
 
 
 def check_fonts(errors: list[str]) -> None:

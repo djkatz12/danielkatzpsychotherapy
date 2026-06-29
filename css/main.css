@@ -694,16 +694,17 @@ blockquote cite::before {
     }
 
     .js .mobile-nav {
-        position: absolute;
+        position: fixed;
         z-index: calc(var(--header-z-index) + 1);
         left: 1rem;
         right: 1rem;
-        top: calc(100% + 0.35rem);
+        top: var(--mobile-nav-top, 7.7rem);
         display: none;
-        max-height: min(calc(100vh - 8.25rem), 31rem);
-        max-height: min(calc(100svh - 8.25rem), 31rem);
+        max-height: min(var(--mobile-nav-max-height, calc(100vh - 8.75rem)), 31rem);
+        max-height: min(var(--mobile-nav-max-height, calc(100svh - 8.75rem)), 31rem);
         padding: 0.5rem;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         background: var(--color-paper);
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -715,12 +716,6 @@ blockquote cite::before {
     }
 
     .js.mobile-menu-open {
-        overflow: hidden;
-        overscroll-behavior: none;
-    }
-
-    .js.mobile-menu-open body {
-        overflow: hidden;
         overscroll-behavior: none;
     }
 
@@ -886,9 +881,9 @@ blockquote cite::before {
     }
 
     .js .mobile-nav {
-        top: calc(100% + 0.25rem);
-        max-height: min(calc(100vh - 7.25rem), 28rem);
-        max-height: min(calc(100svh - 7.25rem), 28rem);
+        top: var(--mobile-nav-top, 6.6rem);
+        max-height: min(var(--mobile-nav-max-height, calc(100vh - 7.25rem)), 28rem);
+        max-height: min(var(--mobile-nav-max-height, calc(100svh - 7.25rem)), 28rem);
         padding: 0.42rem;
     }
 

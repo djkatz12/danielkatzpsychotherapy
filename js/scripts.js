@@ -1,60 +1,110 @@
 (() => {
     const button = document.querySelector('.menu-toggle');
     const navigation = document.getElementById('mobile-navigation');
+    const masthead = document.querySelector('.mobile-masthead');
 
-    if (!button || !navigation) {
+    if (!button || !navigation || !masthead) {
         return;
     }
 
-    let scrollLockY = 0;
-    let isScrollLocked = false;
+    let isMenuOpen = false;
+    let lastTouchY = 0;
 
-    const lockPageScroll = () => {
-        if (isScrollLocked) {
-            return;
-        }
+    const setMenuGeometry = () => {
+        const rect = masthead.getBoundingClientRect();
+        const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        const top = Math.max(0, rect.bottom + 6);
+        const availableHeight = Math.max(160, viewportHeight - top - 16);
 
-        scrollLockY = window.scrollY || window.pageYOffset || 0;
-        document.documentElement.classList.add('mobile-menu-open');
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollLockY}px`;
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-        document.body.style.overflow = 'hidden';
-        isScrollLocked = true;
+        document.documentElement.style.setProperty('--mobile-nav-top', `${top}px`);
+        document.documentElement.style.setProperty('--mobile-nav-max-height', `${availableHeight}px`);
     };
 
-    const unlockPageScroll = () => {
-        if (!isScrollLocked) {
+    const canScrollNavigation = (deltaY) => {
+        const maxScrollTop = navigation.scrollHeight - navigation.clientHeight;
+
+        if (maxScrollTop <= 0) {
+            return false;
+        }
+
+        if (deltaY < 0) {
+            return navigation.scrollTop > 0;
+        }
+
+        if (deltaY > 0) {
+            return navigation.scrollTop < maxScrollTop - 1;
+        }
+
+        return false;
+    };
+
+    const preventBackgroundWheelScroll = (event) => {
+        if (!isMenuOpen) {
             return;
         }
 
-        document.documentElement.classList.remove('mobile-menu-open');
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        document.body.style.overflow = '';
-        isScrollLocked = false;
-        window.scrollTo(0, scrollLockY);
+        if (!navigation.contains(event.target)) {
+            event.preventDefault();
+            return;
+        }
+
+        if (!canScrollNavigation(event.deltaY)) {
+            event.preventDefault();
+        }
+    };
+
+    const recordTouchPosition = (event) => {
+        if (!isMenuOpen || event.touches.length !== 1) {
+            return;
+        }
+
+        lastTouchY = event.touches[0].clientY;
+    };
+
+    const preventBackgroundTouchScroll = (event) => {
+        if (!isMenuOpen || event.touches.length !== 1) {
+            return;
+        }
+
+        if (!navigation.contains(event.target)) {
+            event.preventDefault();
+            lastTouchY = event.touches[0].clientY;
+            return;
+        }
+
+        const currentTouchY = event.touches[0].clientY;
+        const deltaY = lastTouchY - currentTouchY;
+        lastTouchY = currentTouchY;
+
+        if (!canScrollNavigation(deltaY)) {
+            event.preventDefault();
+        }
     };
 
     const setMenuState = (open) => {
+        if (open === isMenuOpen) {
+            return;
+        }
+
+        isMenuOpen = open;
         button.setAttribute('aria-expanded', String(open));
         button.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         navigation.classList.toggle('is-open', open);
         navigation.setAttribute('aria-hidden', String(!open));
+        document.documentElement.classList.toggle('mobile-menu-open', open);
 
         if (open) {
-            lockPageScroll();
+            setMenuGeometry();
         } else {
-            unlockPageScroll();
+            document.documentElement.style.removeProperty('--mobile-nav-top');
+            document.documentElement.style.removeProperty('--mobile-nav-max-height');
         }
     };
 
-    setMenuState(false);
+    button.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-label', 'Open menu');
+    navigation.classList.remove('is-open');
+    navigation.setAttribute('aria-hidden', 'true');
 
     button.addEventListener('click', () => {
         const isOpen = button.getAttribute('aria-expanded') === 'true';
@@ -66,9 +116,14 @@
     // navigates briefly reveals the old page underneath, which reads as a
     // mobile page-load stutter. Let the next document replace this one.
 
+    document.addEventListener('touchstart', recordTouchPosition, { passive: true, capture: true });
+    document.addEventListener('touchmove', preventBackgroundTouchScroll, { passive: false, capture: true });
+    document.addEventListener('wheel', preventBackgroundWheelScroll, { passive: false, capture: true });
+
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             setMenuState(false);
+            button.focus();
         }
     });
 
@@ -81,6 +136,16 @@
     window.addEventListener('resize', () => {
         if (window.matchMedia('(min-width: 801px)').matches) {
             setMenuState(false);
+        } else if (isMenuOpen) {
+            setMenuGeometry();
         }
     });
+
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+            if (isMenuOpen) {
+                setMenuGeometry();
+            }
+        });
+    }
 })();
