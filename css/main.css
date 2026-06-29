@@ -714,6 +714,16 @@ blockquote cite::before {
         display: block;
     }
 
+    .js.mobile-menu-open {
+        overflow: hidden;
+        overscroll-behavior: none;
+    }
+
+    .js.mobile-menu-open body {
+        overflow: hidden;
+        overscroll-behavior: none;
+    }
+
     .no-js .menu-toggle {
         display: none;
     }

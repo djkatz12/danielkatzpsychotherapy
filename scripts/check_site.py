@@ -67,7 +67,12 @@ def check_css_js(errors: list[str]) -> None:
     css = (ROOT / "css" / "main.css").read_text(encoding="utf-8")
     if css.count("{") != css.count("}"):
         errors.append("css/main.css has unmatched braces.")
-    required_css = [".js .mobile-nav", ".js .mobile-nav.is-open", ".no-js .menu-toggle"]
+    required_css = [
+        ".js .mobile-nav",
+        ".js .mobile-nav.is-open",
+        ".js.mobile-menu-open",
+        ".no-js .menu-toggle",
+    ]
     for needle in required_css:
         if needle not in css:
             errors.append(f"css/main.css is missing progressive-enhancement rule: {needle}")
@@ -79,7 +84,15 @@ def check_css_js(errors: list[str]) -> None:
         errors.append("css/main.css should apply overlay positioning only after JS enhancement.")
 
     js = (ROOT / "js" / "scripts.js").read_text(encoding="utf-8")
-    for needle in ["classList.toggle('is-open'", "aria-hidden", "setMenuState(false)"]:
+    for needle in [
+        "classList.toggle('is-open'",
+        "aria-hidden",
+        "setMenuState(false)",
+        "lockPageScroll",
+        "unlockPageScroll",
+        "mobile-menu-open",
+        "window.scrollTo(0, scrollLockY)",
+    ]:
         if needle not in js:
             errors.append(f"js/scripts.js is missing expected mobile-nav behavior: {needle}")
 
