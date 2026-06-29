@@ -9,8 +9,11 @@
     const setMenuState = (open) => {
         button.setAttribute('aria-expanded', String(open));
         button.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        navigation.hidden = !open;
+        navigation.classList.toggle('is-open', open);
+        navigation.setAttribute('aria-hidden', String(!open));
     };
+
+    setMenuState(false);
 
     button.addEventListener('click', () => {
         const isOpen = button.getAttribute('aria-expanded') === 'true';
